@@ -6,7 +6,7 @@ link-external-newwindow: true
 #| echo: true
 ---
 
-[GitHub Repository](https://github.com/pinoliar/GSB_544)
+[GitHub Repository](https://github.com/pinoliar/GSB_544_temp)
 
 # 0
 
@@ -19,7 +19,7 @@ import plotnine as p9
 # 1
 
 ```{python}
-df = pd.read_csv("/Users/apinolia/Downloads/GSB_544/avocado-updated-2020.csv")
+df = pd.read_csv("/Users/apinolia/Downloads/GSB_544_temp/Week 3/avocado-updated-2020.csv")
 df.head()
 df.describe()
 df.info()
@@ -53,27 +53,27 @@ df = df[(df["geography"] != "Total U.S.") &
         (df["geography"] != "Plains") &
         (df["geography"] != "Southeast") &
         (df["geography"] != "South Central")]
-west = ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento', 'Seattle', 
-        'Portland', 'Spokane', 'Boise', 'Phoenix', 'Las Vegas', 'Reno/Tahoe', 'Phoenix/Tucson', 'Denver', 'West Tex/New Mexico']
-great_lakes = ['Chicago', 'Detroit', 'Grand Rapids', 'Cincinnati/Dayton']
-northeast = ['New York', 'Boston', 'Philadelphia', 'Pittsburgh', 'Buffalo/Rochester', 
-             'Hartford/Springfield', 'Albany', 'Syracuse', 'Harrisburg/Scranton',
-             'Northern New England']
-plains = ['Kansas City', 'Omaha', 'Wichita', 'Des Moines']
-southeast = ['Atlanta', 'Charlotte', 'Jacksonville', 'Miami/Ft. Lauderdale', 
-             'Orlando', 'Tampa', 'Raleigh/Greensboro', 'Richmond/Norfolk', 'South Carolina', 'Roanoke']
-south_central = ['Dallas/Ft. Worth', 'Houston', 'San Antonio', 'Austin', 
-                 'Oklahoma City', 'Little Rock', 'New Orleans/Mobile']
-midsouth = ['Nashville', 'Memphis', 'Louisville', 'Baltimore/Washington', 
-            'St. Louis', 'Indianapolis', 'Columbus']
-df.loc[df['geography'].isin(west), 'region'] = 'West'
-df.loc[df['geography'].isin(great_lakes), 'region'] = 'Great Lakes'
-df.loc[df['geography'].isin(northeast), 'region'] = 'Northeast'
-df.loc[df['geography'].isin(plains), 'region'] = 'Plains'
-df.loc[df['geography'].isin(southeast), 'region'] = 'Southeast'
-df.loc[df['geography'].isin(south_central), 'region'] = 'South Central'
-df.loc[df['geography'].isin(midsouth), 'region'] = 'Midsouth'
-df['metro'] = df['geography']
+west = ["Los Angeles", "San Francisco", "San Diego", "Sacramento", "Seattle", 
+        "Portland", "Spokane", "Boise", "Phoenix", "Las Vegas", "Reno/Tahoe", "Phoenix/Tucson", "Denver", "West Tex/New Mexico"]
+great_lakes = ["Chicago", "Detroit", "Grand Rapids", "Cincinnati/Dayton"]
+northeast = ["New York", "Boston", "Philadelphia", "Pittsburgh", "Buffalo/Rochester", 
+             "Hartford/Springfield", "Albany", "Syracuse", "Harrisburg/Scranton",
+             "Northern New England"]
+plains = ["Kansas City", "Omaha", "Wichita", "Des Moines"]
+southeast = ["Atlanta", "Charlotte", "Jacksonville", "Miami/Ft. Lauderdale", 
+             "Orlando", "Tampa", "Raleigh/Greensboro", "Richmond/Norfolk", "South Carolina", "Roanoke"]
+south_central = ["Dallas/Ft. Worth", "Houston", "San Antonio", "Austin", 
+                 "Oklahoma City", "Little Rock", "New Orleans/Mobile"]
+midsouth = ["Nashville", "Memphis", "Louisville", "Baltimore/Washington", 
+            "St. Louis", "Indianapolis", "Columbus"]
+df.loc[df["geography"].isin(west), "region"] = "West"
+df.loc[df["geography"].isin(great_lakes), "region"] = "Great Lakes"
+df.loc[df["geography"].isin(northeast), "region"] = "Northeast"
+df.loc[df["geography"].isin(plains), "region"] = "Plains"
+df.loc[df["geography"].isin(southeast), "region"] = "Southeast"
+df.loc[df["geography"].isin(south_central), "region"] = "South Central"
+df.loc[df["geography"].isin(midsouth), "region"] = "Midsouth"
+df["metro"] = df["geography"]
 ```
 
 # 3
@@ -101,7 +101,7 @@ May has the highest average volume of avocado sales
 ```{python}
 top_5_metro = df.groupby("metro")["total_volume"].mean().sort_values(ascending=False).head(5).index.tolist()
 top_5 = df[df["metro"].isin(top_5_metro)]
-(p9.ggplot(top_5, p9.aes(x='metro', y='total_volume')) +
+(p9.ggplot(top_5, p9.aes(x="metro", y="total_volume")) +
         p9.geom_boxplot() +
         p9.theme_minimal()
 )
@@ -121,18 +121,18 @@ df_california = df[(df["geography"] == "Los Angeles") |
 # 7
 
 ```{python}
-df_california_prices = df_california.groupby(['geography', 'type'])['average_price'].mean().reset_index()
-df_california_prices_wide = df_california_prices.pivot(index='geography', columns='type', values='average_price')
-df_california_prices_wide['price_difference'] = df_california_prices_wide['organic'] - df_california_prices_wide['conventional']
-df_california_prices_wide = df_california_prices_wide.sort_values('price_difference', ascending=False)
-df_california_prices_wide['price_difference'].idxmax()
+df_california_prices = df_california.groupby(["geography", "type"])["average_price"].mean().reset_index()
+df_california_prices_wide = df_california_prices.pivot(index="geography", columns="type", values="average_price")
+df_california_prices_wide["price_difference"] = df_california_prices_wide["organic"] - df_california_prices_wide["conventional"]
+df_california_prices_wide = df_california_prices_wide.sort_values("price_difference", ascending=False)
+df_california_prices_wide["price_difference"].idxmax()
 df_california_prices_wide = df_california_prices_wide.reset_index()
-df_california_prices_long = df_california_prices_wide.melt(id_vars='geography',
-                                                     value_vars=['conventional', 'organic'],
-                                                     var_name='type',
-                                                     value_name='average_price')
-(p9.ggplot(df_california_prices_long, p9.aes(x='geography', y='average_price', fill='type')) +
-        p9.geom_bar(stat='identity', position='dodge') +
+df_california_prices_long = df_california_prices_wide.melt(id_vars="geography",
+                                                     value_vars=["conventional", "organic"],
+                                                     var_name="type",
+                                                     value_name="average_price")
+(p9.ggplot(df_california_prices_long, p9.aes(x="geography", y="average_price", fill="type")) +
+        p9.geom_bar(stat="identity", position="dodge") +
         p9.theme_minimal()
 )
 ```
@@ -142,15 +142,15 @@ San Franscisco, is the California regions where the price of organic versus conv
 # 8
 
 ```{python}
-df_california_sales = df_california.groupby(['geography', 'type'])[['4046', '4225', '4770']].mean()
+df_california_sales = df_california.groupby(["geography", "type"])[["4046", "4225", "4770"]].mean()
 df_california_sales = df_california_sales.reset_index()
-df_california_sales_long = df_california_sales.melt(id_vars=['geography', 'type'], 
-                                                     value_vars=['4046', '4225', '4770'], 
-                                                     var_name='avocado_size', 
-                                                     value_name='avg_sales')
-(p9.ggplot(df_california_sales_long, p9.aes(x='geography', y='avg_sales', fill='avocado_size')) +
-        p9.geom_bar(stat='identity', position='fill') +
-        p9.facet_wrap('~ type') +
+df_california_sales_long = df_california_sales.melt(id_vars=["geography", "type"], 
+                                                     value_vars=["4046", "4225", "4770"], 
+                                                     var_name="avocado_size", 
+                                                     value_name="avg_sales")
+(p9.ggplot(df_california_sales_long, p9.aes(x="geography", y="avg_sales", fill="avocado_size")) +
+        p9.geom_bar(stat="identity", position="fill") +
+        p9.facet_wrap("~ type") +
         p9.theme_minimal()
 )
 ```
@@ -159,22 +159,22 @@ df_california_sales_long = df_california_sales.melt(id_vars=['geography', 'type'
 
 ```{python}
 NAR_data = {
-    'geography': ['Los Angeles', 'Sacramento', 'San Diego', 'San Francisco'],
-    'median_home_price': [924538, 579042, 980533, 1453024]
+    "geography": ["Los Angeles", "Sacramento", "San Diego", "San Francisco"],
+    "median_home_price": [924538, 579042, 980533, 1453024]
 }
 df_housing = pd.DataFrame(NAR_data)
-df_california_prices_wide_housing = df_california_prices_wide.merge(df_housing, on='geography')
-df_california_prices_wide_housing[['median_home_price', 'conventional']].corr()
-df_california_prices_wide_housing[['median_home_price', 'organic']].corr()
-df_california_prices_long_housing = df_california_prices_wide_housing.melt(id_vars=['geography','median_home_price'],
-                                     value_vars=['conventional', 'organic'],
-                                     var_name='avocado_type',
-                                     value_name='avg_price')
-(p9.ggplot(df_california_prices_long_housing, p9.aes(x='median_home_price', y='avg_price', color='avocado_type')) +
+df_california_prices_wide_housing = df_california_prices_wide.merge(df_housing, on="geography")
+df_california_prices_wide_housing[["median_home_price", "conventional"]].corr()
+df_california_prices_wide_housing[["median_home_price", "organic"]].corr()
+df_california_prices_long_housing = df_california_prices_wide_housing.melt(id_vars=["geography","median_home_price"],
+                                     value_vars=["conventional", "organic"],
+                                     var_name="avocado_type",
+                                     value_name="avg_price")
+(p9.ggplot(df_california_prices_long_housing, p9.aes(x="median_home_price", y="avg_price", color="avocado_type")) +
         p9.geom_point() +
-        p9.geom_smooth(method='lm', se=False) +
+        p9.geom_smooth(method="lm", se=False) +
         p9.theme_minimal()
 )
 ```
 
-There is a moderate positive relationship between median home price and average price avocado prices. 
+There is a moderate positive relationship between median home price and average price avocado prices
